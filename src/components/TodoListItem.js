@@ -5,9 +5,9 @@ import {
     MdRemoveCircleOutline,
 } from 'react-icons/md'
 import './TodoListItem.scss'
-const TodoListItem = ({ todo }) => {
+const TodoListItem = ({ todo, onRemove, onToggle }) => {
     // TodoListItem Component 에서 받아온 Todo값에 따라 UI 구성
-    const { text, checked } = todo
+    const { id, text, checked } = todo
     return (
         <div className="TodoListItem">
             <div
@@ -15,7 +15,8 @@ const TodoListItem = ({ todo }) => {
                     checked
                         ? 'checkbox checked'
                         : 'checkbox'
-                }>
+                }
+                onClick={() => onToggle(id)}>
                 {checked ? (
                     <MdCheckBox />
                 ) : (
@@ -24,7 +25,9 @@ const TodoListItem = ({ todo }) => {
                 <div className="text">{text}</div>
             </div>
             <div className="remove">
-                <MdRemoveCircleOutline />
+                <MdRemoveCircleOutline
+                    onClick={() => onRemove(id)}
+                />
             </div>
         </div>
     )

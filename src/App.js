@@ -39,10 +39,39 @@ function App() {
         },
         [todos],
     )
+
+    // - filter 함수 사용하여 onRemove 함수 작성(useCallback 사용)
+    const onRemove = useCallback(
+        (id) => {
+            setTodos(todos.filter((todo) => todo.id !== id))
+        },
+        [todos],
+    )
+
+    // - 수정 기능(checkBox control) => map 사용하여 불변성 유지하면서 특정 배열 원소 업데이트
+    const onToggle = useCallback(
+        (id) => {
+            setTodos(
+                todos.map((todo) =>
+                    todo.id === id
+                        ? {
+                              ...todo,
+                              checked: !todo.checked,
+                          }
+                        : todo,
+                ),
+            )
+        },
+        [todos],
+    )
     return (
         <TodoTemplate>
             <TodoInsert onInsert={onInsert} />
-            <TodoList todos={todos} />
+            <TodoList
+                todos={todos}
+                onRemove={onRemove}
+                onToggle={onToggle}
+            />
         </TodoTemplate>
     )
 }
