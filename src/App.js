@@ -27,43 +27,36 @@ function App() {
     const nextId = useRef(4)
 
     // - onInsert 함수 작성(useCallback 사용 : props로 전달해야 할 함수를 만들때는 useCallback 사용 추천)
-    const onInsert = useCallback(
-        (text) => {
-            const todo = {
-                id: nextId.current,
-                text,
-                checked: false,
-            }
-            setTodos(todos.concat(todo))
-            nextId.current += 1 // nextId 1씩 더하기
-        },
-        [todos],
-    )
+    const onInsert = useCallback((text) => {
+        const todo = {
+            id: nextId.current,
+            text,
+            checked: false,
+        }
+        setTodos((todos) => todos.concat(todo))
+        nextId.current += 1 // nextId 1씩 더하기
+    }, [])
 
     // - filter 함수 사용하여 onRemove 함수 작성(useCallback 사용)
-    const onRemove = useCallback(
-        (id) => {
-            setTodos(todos.filter((todo) => todo.id !== id))
-        },
-        [todos],
-    )
+    const onRemove = useCallback((id) => {
+        setTodos((todos) =>
+            todos.filter((todo) => todo.id !== id),
+        )
+    }, [])
 
     // - 수정 기능(checkBox control) => map 사용하여 불변성 유지하면서 특정 배열 원소 업데이트
-    const onToggle = useCallback(
-        (id) => {
-            setTodos(
-                todos.map((todo) =>
-                    todo.id === id
-                        ? {
-                              ...todo,
-                              checked: !todo.checked,
-                          }
-                        : todo,
-                ),
-            )
-        },
-        [todos],
-    )
+    const onToggle = useCallback((id) => {
+        setTodos((todos) =>
+            todos.map((todo) =>
+                todo.id === id
+                    ? {
+                          ...todo,
+                          checked: !todo.checked,
+                      }
+                    : todo,
+            ),
+        )
+    }, [])
     return (
         <TodoTemplate>
             <TodoInsert onInsert={onInsert} />
